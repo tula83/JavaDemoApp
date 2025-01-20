@@ -1,4 +1,6 @@
 # JavaDemoApp
-##Very basic app where I have incorporated curd properties using spring boot,sring boot data jpa and mysql.
-##Used proper exception handling  techniques to address runtime exceptions and errors.
+
+Very basic app where I have incorporated curd properties using spring boot,Spring boot data jpa and mysql.
+
+Used Proper Exception handling  techniques to address runtime exceptions and errors.
 
