@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.models.DemoModel;
 import com.example.demo.repository.DemoRepository;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +18,8 @@ public class DemoController {
     @Autowired
     private final DemoRepository demoRepository;
 
-    public DemoController(DemoRepository demoRepository) {
+    public DemoController(DemoRepository demoRepository)
+    {
         this.demoRepository = demoRepository;
     }
 
@@ -28,7 +31,9 @@ public class DemoController {
 
 
     @GetMapping("/getData")
-    public ResponseEntity<Iterable<DemoModel>> find(){
+    public ResponseEntity<Iterable<DemoModel>> find()
+    throws  ResourceNotFoundException
+    {
         Iterable<DemoModel> data=demoRepository.findAll();
         return new ResponseEntity<>(data,HttpStatus.OK);
     }
@@ -45,8 +50,11 @@ public class DemoController {
         return new ResponseEntity<>("not found", HttpStatus.BAD_REQUEST);
     }
 
+
     @GetMapping("/getData/name/{name}")
-    public ResponseEntity<Object>findName(@PathVariable String name){
+    public ResponseEntity<Object>findName(@PathVariable String name)
+    throws  ResourceNotFoundException
+    {
         Optional<DemoModel> data=demoRepository.findByName(name);
         if(data.isPresent()){
             return new ResponseEntity<>(data.get(),HttpStatus.OK);
@@ -58,7 +66,9 @@ public class DemoController {
 
 
     @PostMapping("/insert")
-    public ResponseEntity<String> insert(@RequestBody DemoModel data){
+    public ResponseEntity<String> insert(@RequestBody DemoModel data)
+    throws ResourceNotFoundException
+    {
 
         try {
             System.out.println(data.getName());
@@ -74,7 +84,9 @@ public class DemoController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public  ResponseEntity<Object> delete(@PathVariable int id){
+    public  ResponseEntity<Object> delete(@PathVariable int id)
+    throws ResourceNotFoundException
+    {
         Optional<DemoModel> data=demoRepository.findById(id);
 
         if(data.isPresent()){
@@ -86,7 +98,9 @@ public class DemoController {
     }
 
     @PutMapping("/put")
-    public ResponseEntity<Object> update(@RequestBody DemoModel demoModel){
+    public ResponseEntity<Object> update(@RequestBody DemoModel demoModel)
+    throws  ResourceNotFoundException
+    {
         int  id  = demoModel.getId();
 
         if(demoRepository.findById(id).isPresent()){
@@ -99,6 +113,8 @@ public class DemoController {
 
         return new ResponseEntity<>("not found",HttpStatus.BAD_REQUEST);
     }
+
+
 
 
 
